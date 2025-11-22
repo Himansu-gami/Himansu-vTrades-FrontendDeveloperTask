@@ -30,7 +30,9 @@ export default function ResetPassword() {
     }
   }
 
-  const handleSubmit = (e: FormEvent) => {
+  const [isLoading, setIsLoading] = useState(false)
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     const newErrors = { password: '', confirmPassword: '' }
 
@@ -49,10 +51,21 @@ export default function ResetPassword() {
     setErrors(newErrors)
 
     if (!newErrors.password && !newErrors.confirmPassword) {
-      console.log('Password reset successful')
-      // Handle password reset logic here
-      // On success, show modal
-      setShowModal(true)
+      setIsLoading(true)
+      try {
+        const { authAPI } = await import('@/lib/api')
+        const resetToken = localStorage.getItem('resetToken') || ''
+        await authAPI.resetPassword(resetToken, formData.password)
+        console.log('Password reset successful')
+        localStorage.removeItem('resetToken')
+        setShowModal(true)
+      } catch (error) {
+        const { handleAPIError } = await import('@/lib/api')
+        const errorMessage = handleAPIError(error)
+        setErrors({ ...newErrors, password: errorMessage })
+      } finally {
+        setIsLoading(false)
+      }
     }
   }
 
@@ -103,9 +116,10 @@ export default function ResetPassword() {
 
         <button
           type="submit"
-          className="w-full py-3 bg-primary hover:bg-primary-dark rounded-lg font-medium transition-colors"
+          disabled={isLoading}
+          className="w-full py-3 bg-primary hover:bg-primary-dark rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Update Password
+          {isLoading ? 'Updating...' : 'Update Password'}
         </button>
       </form>
     </AuthLayout>

@@ -9,6 +9,7 @@ interface ModalProps {
   message: string
   icon?: 'success' | 'error' | 'warning' | 'check'
   buttonText?: string
+  otpCode?: string
 }
 
 export default function Modal({ 
@@ -17,7 +18,8 @@ export default function Modal({
   title, 
   message, 
   icon = 'success',
-  buttonText = 'Okay'
+  buttonText = 'Okay',
+  otpCode
 }: ModalProps) {
   useEffect(() => {
     if (isOpen) {
@@ -84,6 +86,17 @@ export default function Modal({
 
         {/* Title */}
         <h2 className="text-2xl font-bold mb-4">{title}</h2>
+
+        {/* OTP Code (if provided) */}
+        {otpCode && (
+          <div className="mb-6">
+            <div className="bg-background-dark border-2 border-primary/30 rounded-xl py-5 px-8 mb-4">
+              <p className="text-4xl font-bold text-white tracking-[0.5em] font-mono">
+                {otpCode}
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Message */}
         <p className="text-gray-400 mb-8 max-w-sm mx-auto">{message}</p>

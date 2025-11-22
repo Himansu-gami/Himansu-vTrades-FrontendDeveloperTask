@@ -15,6 +15,7 @@ export default function SignIn() {
     email: '',
     password: ''
   })
+  const [isLoading, setIsLoading] = useState(false)
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -30,7 +31,7 @@ export default function SignIn() {
     }
   }
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     const newErrors = { email: '', password: '' }
 
@@ -47,8 +48,22 @@ export default function SignIn() {
     setErrors(newErrors)
 
     if (!newErrors.email && !newErrors.password) {
-      console.log('Form submitted:', formData)
-      // Handle successful submission
+      setIsLoading(true)
+      try {
+        const { authAPI, handleAPIError } = await import('@/lib/api')
+        const response = await authAPI.signIn(formData.email, formData.password)
+        console.log('Sign in successful:', response)
+        // Store token and redirect to dashboard
+        localStorage.setItem('token', response.data.token)
+        // router.push('/dashboard')
+        alert('Sign in successful! Token: ' + response.data.token)
+      } catch (error) {
+        const { handleAPIError } = await import('@/lib/api')
+        const errorMessage = handleAPIError(error)
+        setErrors({ ...newErrors, password: errorMessage })
+      } finally {
+        setIsLoading(false)
+      }
     }
   }
 
@@ -91,9 +106,10 @@ export default function SignIn() {
 
         <button
           type="submit"
-          className="w-full py-3 bg-primary hover:bg-primary-dark rounded-lg font-medium transition-colors"
+          disabled={isLoading}
+          className="w-full py-3 bg-primary hover:bg-primary-dark rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Sign In
+          {isLoading ? 'Signing In...' : 'Sign In'}
         </button>
 
         <SocialButtons />

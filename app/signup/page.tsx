@@ -2,11 +2,13 @@
 
 import { useState, FormEvent } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import AuthLayout from '@/components/AuthLayout'
 import Input from '@/components/Input'
 import SocialButtons from '@/components/SocialButtons'
 
 export default function SignUp() {
+  const router = useRouter()
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -36,7 +38,9 @@ export default function SignUp() {
     }
   }
 
-  const handleSubmit = (e: FormEvent) => {
+  const [isLoading, setIsLoading] = useState(false)
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     const newErrors = { email: '', password: '', confirmPassword: '' }
 
@@ -61,8 +65,21 @@ export default function SignUp() {
     setErrors(newErrors)
 
     if (!newErrors.email && !newErrors.password && !newErrors.confirmPassword) {
-      console.log('Form submitted:', formData)
-      // Handle successful submission
+      setIsLoading(true)
+      try {
+        const { authAPI, handleAPIError } = await import('@/lib/api')
+        const response = await authAPI.signUp(formData.email, formData.password)
+        console.log('Sign up successful:', response)
+        localStorage.setItem('token', response.data.token)
+        alert('Sign up successful! Redirecting to sign in...')
+        router.push('/signin')
+      } catch (error) {
+        const { handleAPIError } = await import('@/lib/api')
+        const errorMessage = handleAPIError(error)
+        setErrors({ ...newErrors, email: errorMessage })
+      } finally {
+        setIsLoading(false)
+      }
     }
   }
 
@@ -109,9 +126,10 @@ export default function SignUp() {
 
         <button
           type="submit"
-          className="w-full py-3 bg-primary hover:bg-primary-dark rounded-lg font-medium transition-colors"
+          disabled={isLoading}
+          className="w-full py-3 bg-primary hover:bg-primary-dark rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Sign Up
+          {isLoading ? 'Creating Account...' : 'Sign Up'}
         </button>
 
         <SocialButtons />

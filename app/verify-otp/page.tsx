@@ -60,7 +60,9 @@ export default function VerifyOTP() {
     inputRefs.current[nextIndex]?.focus()
   }
 
-  const handleSubmit = () => {
+  const [isLoading, setIsLoading] = useState(false)
+
+  const handleSubmit = async () => {
     const otpValue = otp.join('')
     
     if (otpValue.length !== 6) {
@@ -68,24 +70,41 @@ export default function VerifyOTP() {
       return
     }
 
-    console.log('OTP submitted:', otpValue)
-    // Verify OTP logic here
-    // On success, show modal
-    setShowModal(true)
+    setIsLoading(true)
+    try {
+      const { authAPI } = await import('@/lib/api')
+      const response = await authAPI.verifyOTP(email, otpValue)
+      console.log('OTP verified:', response)
+      localStorage.setItem('resetToken', response.data.resetToken)
+      setShowModal(true)
+    } catch (error) {
+      const { handleAPIError } = await import('@/lib/api')
+      const errorMessage = handleAPIError(error)
+      setError(errorMessage)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const handleModalClose = () => {
     setShowModal(false)
-    // Simulate OTP verification success
     router.push('/reset-password')
   }
 
-  const handleResend = () => {
+  const handleResend = async () => {
     if (timer === 0) {
-      setTimer(30)
-      setOtp(['', '', '', '', '', ''])
-      inputRefs.current[0]?.focus()
-      console.log('OTP resent')
+      try {
+        const { authAPI } = await import('@/lib/api')
+        await authAPI.resendOTP(email)
+        setTimer(30)
+        setOtp(['', '', '', '', '', ''])
+        inputRefs.current[0]?.focus()
+        console.log('OTP resent')
+      } catch (error) {
+        const { handleAPIError } = await import('@/lib/api')
+        const errorMessage = handleAPIError(error)
+        setError(errorMessage)
+      }
     }
   }
 
@@ -153,9 +172,10 @@ export default function VerifyOTP() {
         <button
           type="button"
           onClick={handleSubmit}
-          className="w-full py-3 bg-primary hover:bg-primary-dark rounded-lg font-medium transition-colors"
+          disabled={isLoading}
+          className="w-full py-3 bg-primary hover:bg-primary-dark rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Continue
+          {isLoading ? 'Verifying...' : 'Continue'}
         </button>
 
 
