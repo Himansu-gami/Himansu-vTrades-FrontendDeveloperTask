@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
     // Generate reset token
     const resetToken = mockDB.generateResetToken(email)
 
-    console.log(`✅ OTP verified for ${email}, reset token generated`)
+    console.log(`OTP verified for ${email}, reset token generated`)
 
     return NextResponse.json({
       success: true,

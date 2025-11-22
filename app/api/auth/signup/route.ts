@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
     // Generate token
     const token = `jwt-token-${user.id}-${Date.now()}`
 
-    console.log(`✅ New user created: ${email}`)
+    console.log(`New user created: ${email}`)
     mockDB.debugPrintUsers()
 
     return NextResponse.json({

@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
     mockDB.debugPrintUsers()
     
     if (!user) {
-      console.log(`❌ User not found: ${email}`)
+      console.log(`User not found: ${email}`)
       return NextResponse.json({
         success: false,
         message: 'Invalid email or password'
@@ -24,9 +24,9 @@ export async function POST(request: NextRequest) {
     }
 
     // Check password (in real app, use bcrypt.compare)
-    console.log(`🔑 Checking password - Stored: ${user.password}, Provided: ${password}`)
+    console.log(`Checking password - Stored: ${user.password}, Provided: ${password}`)
     if (user.password !== password) {
-      console.log(`❌ Password mismatch for: ${email}`)
+      console.log(`Password mismatch for: ${email}`)
       return NextResponse.json({
         success: false,
         message: 'Invalid email or password'
@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
     // Generate token
     const token = `jwt-token-${user.id}-${Date.now()}`
 
-    console.log(`✅ User signed in: ${email}`)
+    console.log(`User signed in: ${email}`)
 
     return NextResponse.json({
       success: true,

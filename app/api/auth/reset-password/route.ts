@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
     // Delete reset token after use
     mockDB.deleteResetToken(resetToken)
 
-    console.log(`✅ Password reset for ${email}`)
+    console.log(`Password reset for ${email}`)
     mockDB.debugPrintUsers()
 
     return NextResponse.json({
