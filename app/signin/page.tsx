@@ -1,21 +1,72 @@
+'use client'
+
+import { useState, FormEvent } from 'react'
 import Link from 'next/link'
 import AuthLayout from '@/components/AuthLayout'
 import Input from '@/components/Input'
 import SocialButtons from '@/components/SocialButtons'
 
 export default function SignIn() {
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  })
+  const [errors, setErrors] = useState({
+    email: '',
+    password: ''
+  })
+
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return emailRegex.test(email)
+  }
+
+  const handleInputChange = (field: 'email' | 'password', value: string) => {
+    setFormData({ ...formData, [field]: value })
+    
+    // Clear error when user starts typing
+    if (errors[field]) {
+      setErrors({ ...errors, [field]: '' })
+    }
+  }
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault()
+    const newErrors = { email: '', password: '' }
+
+    if (!formData.email) {
+      newErrors.email = 'Email is required'
+    } else if (!validateEmail(formData.email)) {
+      newErrors.email = 'Please enter a valid email'
+    }
+
+    if (!formData.password) {
+      newErrors.password = 'Password is required'
+    }
+
+    setErrors(newErrors)
+
+    if (!newErrors.email && !newErrors.password) {
+      console.log('Form submitted:', formData)
+      // Handle successful submission
+    }
+  }
+
   return (
     <AuthLayout>
       <h2 className="text-3xl font-bold mb-2">Sign In</h2>
       <p className="text-gray-400 mb-8">Manage your workspace seamlessly. Sign in to continue.</p>
 
-      <form className="space-y-6" autoComplete="off">
+      <form className="space-y-6" autoComplete="off" onSubmit={handleSubmit} noValidate>
         <Input 
           id="email" 
           label="Email Address" 
           type="email" 
           placeholder="Enter your email"
           autoComplete="off"
+          value={formData.email}
+          onChange={(e) => handleInputChange('email', e.target.value)}
+          error={errors.email}
         />
 
         <Input 
@@ -25,6 +76,9 @@ export default function SignIn() {
           placeholder="Enter your password"
           showPasswordToggle
           autoComplete="new-password"
+          value={formData.password}
+          onChange={(e) => handleInputChange('password', e.target.value)}
+          error={errors.password}
         />
 
         <div className="flex items-center justify-between">
