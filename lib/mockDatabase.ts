@@ -4,9 +4,10 @@
 interface User {
   id: string
   email: string
-  password: string
+  password?: string // Optional for OAuth users
   name: string
   role: string
+  provider?: 'email' | 'google' | 'microsoft' // Auth provider
   createdAt: number
 }
 
@@ -69,6 +70,26 @@ class MockDatabase {
       password, // In real app, hash this with bcrypt
       name: email.split('@')[0],
       role: 'user',
+      provider: 'email',
+      createdAt: Date.now()
+    }
+    this.users.set(email, user)
+    return user
+  }
+
+  createOAuthUser(email: string, name: string, provider: 'google' | 'microsoft'): User {
+    // Check if user already exists
+    const existingUser = this.users.get(email)
+    if (existingUser) {
+      return existingUser
+    }
+
+    const user: User = {
+      id: String(this.users.size + 1),
+      email,
+      name,
+      role: 'user',
+      provider,
       createdAt: Date.now()
     }
     this.users.set(email, user)
