@@ -3,10 +3,10 @@ import AuthLayout from '@/components/AuthLayout'
 import Input from '@/components/Input'
 import SocialButtons from '@/components/SocialButtons'
 
-export default function SignIn() {
+export default function SignUp() {
   return (
     <AuthLayout>
-      <h2 className="text-3xl font-bold mb-2">Sign In</h2>
+      <h2 className="text-3xl font-bold mb-2">Sign Up</h2>
       <p className="text-gray-400 mb-8">Manage your workspace seamlessly. Sign in to continue.</p>
 
       <form className="space-y-6" autoComplete="off">
@@ -26,26 +26,27 @@ export default function SignIn() {
           showPasswordToggle
           autoComplete="new-password"
         />
-
-        <div className="flex items-center justify-between">
-          <label className="flex items-center">
-            <input type="checkbox" className="mr-2" />
-            <span className="text-sm">Remember me</span>
-          </label>
-          <a href="#" className="text-sm text-primary hover:text-primary-dark">Forgot Password?</a>
-        </div>
+        
+        <Input 
+          id="confirmPassword" 
+          label="Confirm Password" 
+          type="password"
+          placeholder="Confirm your password"
+          showPasswordToggle
+          autoComplete="new-password"
+        />
 
         <button
           type="submit"
           className="w-full py-3 bg-primary hover:bg-primary-dark rounded-lg font-medium transition-colors"
         >
-          Sign In
+          Sign Up
         </button>
 
         <SocialButtons />
 
         <p className="text-center text-sm text-gray-400">
-          Don't have an account? <Link href="/signup" className="text-primary hover:text-primary-dark">Sign Up</Link>
+          Already have an account? <Link href="/signin" className="text-primary hover:text-primary-dark">Sign In</Link>
         </p>
       </form>
     </AuthLayout>
