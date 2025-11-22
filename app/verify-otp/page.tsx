@@ -1,12 +1,12 @@
 'use client'
 
-import { useState, useRef, KeyboardEvent, ClipboardEvent, useEffect } from 'react'
+import { useState, useRef, KeyboardEvent, ClipboardEvent, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import AuthLayout from '@/components/AuthLayout'
 import Modal from '@/components/Modal'
 
-export default function VerifyOTP() {
+function VerifyOTPContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const email = searchParams.get('email') || 'your email'
@@ -182,5 +182,19 @@ export default function VerifyOTP() {
       </div>
     </AuthLayout>
     </>
+  )
+}
+
+export default function VerifyOTP() {
+  return (
+    <Suspense fallback={
+      <AuthLayout>
+        <div className="text-center">
+          <h2 className="text-3xl font-bold mb-2">Loading...</h2>
+        </div>
+      </AuthLayout>
+    }>
+      <VerifyOTPContent />
+    </Suspense>
   )
 }
