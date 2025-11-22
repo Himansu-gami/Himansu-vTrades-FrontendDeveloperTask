@@ -84,7 +84,7 @@ export default function Dashboard() {
             </svg>
           </div>
           <h1 className="text-4xl font-bold mb-4">Welcome to WORKHIVE! 🎉</h1>
-          <p className="text-xl text-gray-400 mb-2">You've successfully signed in</p>
+          <p className="text-xl text-gray-400 mb-2">You&apos;ve successfully signed in</p>
           <p className="text-gray-500">Manage your workspace seamlessly</p>
         </div>
 
