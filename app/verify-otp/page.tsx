@@ -15,6 +15,8 @@ function VerifyOTPContent() {
   const [timer, setTimer] = useState(30)
   const [error, setError] = useState('')
   const [showModal, setShowModal] = useState(false)
+  const [showOtpModal, setShowOtpModal] = useState(false)
+  const [newOtpCode, setNewOtpCode] = useState('')
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
 
   useEffect(() => {
@@ -95,17 +97,27 @@ function VerifyOTPContent() {
     if (timer === 0) {
       try {
         const { authAPI } = await import('@/lib/api')
-        await authAPI.resendOTP(email)
+        const response = await authAPI.resendOTP(email)
         setTimer(30)
         setOtp(['', '', '', '', '', ''])
-        inputRefs.current[0]?.focus()
         console.log('OTP resent')
+        
+        // Display new OTP in modal
+        if (response.data.otp) {
+          setNewOtpCode(response.data.otp)
+          setShowOtpModal(true)
+        }
       } catch (error) {
         const { handleAPIError } = await import('@/lib/api')
         const errorMessage = handleAPIError(error)
         setError(errorMessage)
       }
     }
+  }
+
+  const handleOtpModalClose = () => {
+    setShowOtpModal(false)
+    inputRefs.current[0]?.focus()
   }
 
   return (
@@ -116,6 +128,14 @@ function VerifyOTPContent() {
         title="Link Sent Successfully!"
         message="Check your inbox! We've sent you an email with instructions to reset your password."
         icon="success"
+      />
+      <Modal
+        isOpen={showOtpModal}
+        onClose={handleOtpModalClose}
+        title="New OTP Generated!"
+        message="This is for testing purposes only. In production, this would be sent to your email."
+        icon="success"
+        otpCode={newOtpCode}
       />
       <AuthLayout>
       <h2 className="text-3xl font-bold mb-2">Enter OTP</h2>

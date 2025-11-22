@@ -1,12 +1,14 @@
 'use client'
 
 import { useState, FormEvent } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import AuthLayout from '@/components/AuthLayout'
 import Input from '@/components/Input'
 import SocialButtons from '@/components/SocialButtons'
 
 export default function SignIn() {
+  const router = useRouter()
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -50,13 +52,17 @@ export default function SignIn() {
     if (!newErrors.email && !newErrors.password) {
       setIsLoading(true)
       try {
-        const { authAPI, handleAPIError } = await import('@/lib/api')
+        const { authAPI } = await import('@/lib/api')
         const response = await authAPI.signIn(formData.email, formData.password)
         console.log('Sign in successful:', response)
-        // Store token and redirect to dashboard
+        
+        // Store token and user info
         localStorage.setItem('token', response.data.token)
-        // router.push('/dashboard')
-        alert('Sign in successful! Token: ' + response.data.token)
+        localStorage.setItem('userEmail', response.data.user.email)
+        localStorage.setItem('userName', response.data.user.name)
+        
+        // Redirect to dashboard
+        router.push('/dashboard')
       } catch (error) {
         const { handleAPIError } = await import('@/lib/api')
         const errorMessage = handleAPIError(error)
@@ -69,7 +75,7 @@ export default function SignIn() {
 
   return (
     <AuthLayout>
-      <h2 className="text-3xl font-bold mb-2">Sign In</h2>
+        <h2 className="text-3xl font-bold mb-2">Sign In</h2>
       <p className="text-gray-400 mb-8">Manage your workspace seamlessly. Sign in to continue.</p>
 
       <form className="space-y-6" autoComplete="off" onSubmit={handleSubmit} noValidate>
