@@ -131,13 +131,23 @@ export default function VerifyOTP() {
 
         {error && <p className="text-red-500 text-xs">{error}</p>}
 
-        <div className="flex items-center gap-2 text-sm text-gray-400">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <circle cx="12" cy="12" r="10" />
-            <polyline points="12 6 12 12 16 14" />
-          </svg>
-          <span>{timer} Sec</span>
-        </div>
+        {timer > 0 ? (
+          <div className="flex items-center gap-2 text-sm text-gray-400">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
+            <span>{timer} Sec</span>
+          </div>
+        ) : (
+          <button
+            type="button"
+            onClick={handleResend}
+            className="text-sm text-primary hover:text-primary-dark"
+          >
+            Resend OTP
+          </button>
+        )}
 
         <button
           type="button"
@@ -147,21 +157,7 @@ export default function VerifyOTP() {
           Continue
         </button>
 
-        <p className="text-center text-sm text-gray-400">
-          Didn't receive the code?{' '}
-          <button
-            type="button"
-            onClick={handleResend}
-            disabled={timer > 0}
-            className={`${
-              timer > 0 
-                ? 'text-gray-500 cursor-not-allowed' 
-                : 'text-primary hover:text-primary-dark cursor-pointer'
-            }`}
-          >
-            Resend
-          </button>
-        </p>
+
       </div>
     </AuthLayout>
     </>
