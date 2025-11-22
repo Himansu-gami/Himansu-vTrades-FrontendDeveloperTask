@@ -86,7 +86,7 @@ export default function SignIn() {
             <input type="checkbox" className="mr-2" />
             <span className="text-sm">Remember me</span>
           </label>
-          <a href="#" className="text-sm text-primary hover:text-primary-dark">Forgot Password?</a>
+          <Link href="/forgot-password" className="text-sm text-primary hover:text-primary-dark">Forgot Password?</Link>
         </div>
 
         <button
