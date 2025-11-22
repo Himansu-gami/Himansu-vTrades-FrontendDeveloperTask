@@ -76,6 +76,7 @@ export default function VerifyOTP() {
 
   const handleModalClose = () => {
     setShowModal(false)
+    // Simulate OTP verification success
     router.push('/reset-password')
   }
 
