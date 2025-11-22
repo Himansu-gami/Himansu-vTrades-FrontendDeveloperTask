@@ -8,7 +8,6 @@ import Input from '@/components/Input'
 export default function ForgotPassword() {
   const [email, setEmail] = useState('')
   const [error, setError] = useState('')
-  const [isSubmitted, setIsSubmitted] = useState(false)
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -36,37 +35,8 @@ export default function ForgotPassword() {
     }
 
     console.log('Password reset requested for:', email)
-    setIsSubmitted(true)
-    // Handle password reset logic here
-  }
-
-  if (isSubmitted) {
-    return (
-      <AuthLayout>
-        <div className="text-center">
-          <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-6">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-primary">
-              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-              <polyline points="22 4 12 14.01 9 11.01" />
-            </svg>
-          </div>
-          <h2 className="text-3xl font-bold mb-2">Check Your Email</h2>
-          <p className="text-gray-400 mb-8">
-            We've sent a password reset link to <span className="text-white">{email}</span>
-          </p>
-          <Link 
-            href="/signin" 
-            className="text-primary hover:text-primary-dark inline-flex items-center gap-2"
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <line x1="19" y1="12" x2="5" y2="12" />
-              <polyline points="12 19 5 12 12 5" />
-            </svg>
-            Back to Sign In
-          </Link>
-        </div>
-      </AuthLayout>
-    )
+    // Redirect to OTP verification page
+    window.location.href = `/verify-otp?email=${encodeURIComponent(email)}`
   }
 
   return (
