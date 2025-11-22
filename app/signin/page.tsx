@@ -115,7 +115,7 @@ export default function SignIn() {
         <SocialButtons />
 
         <p className="text-center text-sm text-gray-400">
-          Don't have an account? <Link href="/signup" className="text-primary hover:text-primary-dark">Sign Up</Link>
+          Don&apos;t have an account? <Link href="/signup" className="text-primary hover:text-primary-dark">Sign Up</Link>
         </p>
       </form>
     </AuthLayout>

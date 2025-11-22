@@ -86,7 +86,7 @@ export default function ResetPassword() {
       <AuthLayout>
       <h2 className="text-3xl font-bold mb-2">Create New Password</h2>
       <p className="text-gray-400 mb-8">
-        Choose a strong and secure password to keep your account safe. Make sure it's easy for you to remember, but hard for others to guess!
+        Choose a strong and secure password to keep your account safe. Make sure it&apos;s easy for you to remember, but hard for others to guess!
       </p>
 
       <form className="space-y-6" autoComplete="off" onSubmit={handleSubmit} noValidate>

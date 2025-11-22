@@ -79,7 +79,7 @@ export default function ForgotPassword() {
       <AuthLayout>
         <h2 className="text-3xl font-bold mb-2">Forgot Your Password?</h2>
         <p className="text-gray-400 mb-8">
-          Don't worry! Enter your email address, and we'll send you a link to reset it.
+          Don&apos;t worry! Enter your email address, and we&apos;ll send you a link to reset it.
         </p>
 
         <form className="space-y-6" autoComplete="off" onSubmit={handleSubmit} noValidate>
