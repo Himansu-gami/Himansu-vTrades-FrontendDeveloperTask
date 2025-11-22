@@ -4,6 +4,7 @@ import { useState, useRef, KeyboardEvent, ClipboardEvent, useEffect } from 'reac
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import AuthLayout from '@/components/AuthLayout'
+import Modal from '@/components/Modal'
 
 export default function VerifyOTP() {
   const router = useRouter()
@@ -13,6 +14,7 @@ export default function VerifyOTP() {
   const [otp, setOtp] = useState(['', '', '', '', '', ''])
   const [timer, setTimer] = useState(30)
   const [error, setError] = useState('')
+  const [showModal, setShowModal] = useState(false)
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
 
   useEffect(() => {
@@ -68,7 +70,12 @@ export default function VerifyOTP() {
 
     console.log('OTP submitted:', otpValue)
     // Verify OTP logic here
-    // On success, redirect to reset password page
+    // On success, show modal
+    setShowModal(true)
+  }
+
+  const handleModalClose = () => {
+    setShowModal(false)
     router.push('/reset-password')
   }
 
@@ -82,7 +89,15 @@ export default function VerifyOTP() {
   }
 
   return (
-    <AuthLayout>
+    <>
+      <Modal
+        isOpen={showModal}
+        onClose={handleModalClose}
+        title="Link Sent Successfully!"
+        message="Check your inbox! We've sent you an email with instructions to reset your password."
+        icon="success"
+      />
+      <AuthLayout>
       <h2 className="text-3xl font-bold mb-2">Enter OTP</h2>
       <p className="text-gray-400 mb-2">
         Enter the OTP that we have sent to your email address
@@ -149,5 +164,6 @@ export default function VerifyOTP() {
         </p>
       </div>
     </AuthLayout>
+    </>
   )
 }
