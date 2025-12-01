@@ -78,7 +78,7 @@ export default function Modal({
       />
       
       {/* Modal */}
-      <div className="relative bg-background-card rounded-2xl p-8 max-w-md w-full mx-4 text-center">
+      <div className="relative rounded-2xl p-8 max-w-md w-full mx-4 text-center" style={{ backgroundColor: '#1F2129' }}>
         {/* Icon */}
         <div className={`w-32 h-32 ${iconColors[icon]} rounded-full flex items-center justify-center mx-auto mb-6`}>
           {icons[icon]}
@@ -105,7 +105,7 @@ export default function Modal({
         <div className="flex justify-end">
           <button
             onClick={onClose}
-            className="px-16 py-3 bg-primary hover:bg-primary-dark rounded-lg font-medium transition-colors"
+            className="px-16 py-3 bg-primary rounded-lg font-sans text-button transition-all duration-300 ease-out active:scale-95"
           >
             {buttonText}
           </button>

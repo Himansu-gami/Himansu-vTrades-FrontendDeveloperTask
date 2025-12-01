@@ -102,7 +102,6 @@ function VerifyOTPContent() {
         setOtp(['', '', '', '', '', ''])
         console.log('OTP resent')
         
-        // Display new OTP in modal
         if (response.data.otp) {
           setNewOtpCode(response.data.otp)
           setShowOtpModal(true)
@@ -138,69 +137,73 @@ function VerifyOTPContent() {
         otpCode={newOtpCode}
       />
       <AuthLayout>
-      <h2 className="text-3xl font-bold mb-2">Enter OTP</h2>
-      <p className="text-gray-400 mb-2">
-        Enter the OTP that we have sent to your email address
-      </p>
-      <p className="text-white mb-8">{email}</p>
+        <h2 className="font-sans font-semibold text-heading opacity-100 mb-2">
+          Enter OTP
+        </h2>
+        <p className="font-sans text-body opacity-100 text-gray-400 mb-2">
+          Enter the OTP that we have sent to your email address
+        </p>
+        <p className="font-sans text-body opacity-100 text-white mb-8">
+          {email}
+        </p>
 
-      <Link 
-        href="/forgot-password" 
-        className="text-primary hover:text-primary-dark text-sm mb-8 block"
-      >
-        Change Email Address
-      </Link>
+        <Link 
+          href="/forgot-password" 
+          className="font-sans text-link font-semibold text-primary hover:text-primary-dark block mb-8"
+        >
+          Change Email Address
+        </Link>
 
-      <div className="space-y-6">
-        <div className="flex gap-3">
-          {otp.map((digit, index) => (
-            <input
-              key={index}
-              ref={(el) => { inputRefs.current[index] = el }}
-              type="text"
-              inputMode="numeric"
-              maxLength={1}
-              value={digit}
-              onChange={(e) => handleChange(index, e.target.value)}
-              onKeyDown={(e) => handleKeyDown(index, e)}
-              onPaste={handlePaste}
-              className="w-14 h-14 text-center text-2xl bg-dark rounded-lg border border-dark-lighter focus:border-primary focus:outline-none"
-            />
-          ))}
-        </div>
-
-        {error && <p className="text-red-500 text-xs">{error}</p>}
-
-        {timer > 0 ? (
-          <div className="flex items-center gap-2 text-sm text-gray-400">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="12" cy="12" r="10" />
-              <polyline points="12 6 12 12 16 14" />
-            </svg>
-            <span>{timer} Sec</span>
+        <div>
+          <div className="flex gap-3">
+            {otp.map((digit, index) => (
+              <input
+                key={index}
+                ref={(el) => { inputRefs.current[index] = el }}
+                type="text"
+                inputMode="numeric"
+                maxLength={1}
+                value={digit}
+                onChange={(e) => handleChange(index, e.target.value)}
+                onKeyDown={(e) => handleKeyDown(index, e)}
+                onPaste={handlePaste}
+                className="w-14 h-14 text-center text-2xl bg-dark rounded-lg border border-dark-lighter focus:border-primary focus:outline-none"
+              />
+            ))}
           </div>
-        ) : (
+
+          {error && <p className="text-red-500 text-xs mt-2">{error}</p>}
+
+          <div className="mt-10">
+            {timer > 0 ? (
+              <div className="flex items-center gap-2 text-sm text-gray-400">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 16 14" />
+                </svg>
+                <span>{timer} Sec</span>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={handleResend}
+                className="font-sans text-link font-semibold text-primary hover:text-primary-dark"
+              >
+                Resend OTP
+              </button>
+            )}
+          </div>
+
           <button
             type="button"
-            onClick={handleResend}
-            className="text-sm text-primary hover:text-primary-dark"
+            onClick={handleSubmit}
+            disabled={isLoading}
+            className="w-385 max-w-full h-50 rounded-10 pt-13 px-6 pb-13 opacity-100 bg-primary font-sans text-button transition-all duration-300 ease-out active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed mt-10"
           >
-            Resend OTP
+            {isLoading ? 'Verifying...' : 'Continue'}
           </button>
-        )}
-
-        <button
-          type="button"
-          onClick={handleSubmit}
-          disabled={isLoading}
-          className="w-full py-3 bg-primary hover:bg-primary-dark rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {isLoading ? 'Verifying...' : 'Continue'}
-        </button>
-
-
-      </div>
-    </AuthLayout>
+        </div>
+      </AuthLayout>
     </>
   )
 }
@@ -210,7 +213,7 @@ export default function VerifyOTP() {
     <Suspense fallback={
       <AuthLayout>
         <div className="text-center">
-          <h2 className="text-3xl font-bold mb-2">Loading...</h2>
+          <h2 className="font-sans font-semibold text-heading mb-2">Loading...</h2>
         </div>
       </AuthLayout>
     }>

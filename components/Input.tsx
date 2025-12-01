@@ -22,17 +22,17 @@ export default function Input({
   const inputType = showPasswordToggle && showPassword ? 'text' : type
 
   return (
-    <div>
+    <div className="w-385 max-w-full">
       <label htmlFor={id} className="block text-sm mb-2">{label}</label>
-      <div className="relative">
+      <div className="relative w-full h-50">
         <input
           type={inputType}
           id={id}
           name={id}
           data-form-type="other"
-          className={`w-full px-4 py-3 bg-dark rounded-lg border border-dark-lighter focus:border-primary focus:outline-none ${
-            showPasswordToggle ? 'pr-12' : ''
-          } ${error ? 'border-red-500' : ''}`}
+          className={`w-full h-full rounded-10 pt-13 ${showPasswordToggle ? 'pr-12' : 'pr-6'} pb-13 pl-6 opacity-100 box-border bg-dark border border-dark-lighter focus:border-primary focus:outline-none ${
+            error ? 'border-red-500' : ''
+          }`}
           {...props}
         />
         {showPasswordToggle && (
@@ -42,7 +42,7 @@ export default function Input({
               e.preventDefault()
               setShowPassword(!showPassword)
             }}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-300 p-1"
+            className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-transparent border-none cursor-pointer p-1 flex items-center justify-center text-gray-400 hover:text-gray-300"
           >
             {showPassword ? (
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

@@ -77,36 +77,44 @@ export default function ForgotPassword() {
         otpCode={otpCode}
       />
       <AuthLayout>
-        <h2 className="text-3xl font-bold mb-2">Forgot Your Password?</h2>
-        <p className="text-gray-400 mb-8">
+        <h2 className="font-sans font-semibold text-heading opacity-100 mb-2">
+          Forgot Your Password?
+        </h2>
+        <p className="w-363 max-w-full font-sans text-body opacity-100 text-gray-400 mb-8">
           Don&apos;t worry! Enter your email address, and we&apos;ll send you a link to reset it.
         </p>
 
         <form className="space-y-6" autoComplete="off" onSubmit={handleSubmit} noValidate>
-        <Input 
-          id="email" 
-          label="Email Address" 
-          type="email" 
-          placeholder="Enter your email"
-          autoComplete="off"
-          value={email}
-          onChange={(e) => handleInputChange(e.target.value)}
-          error={error}
-        />
+          <Input 
+            id="email" 
+            label="Email Address" 
+            type="email" 
+            placeholder="Enter your email"
+            autoComplete="off"
+            value={email}
+            onChange={(e) => handleInputChange(e.target.value)}
+            error={error}
+          />
 
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="w-full py-3 bg-primary hover:bg-primary-dark rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {isLoading ? 'Sending...' : 'Submit'}
-        </button>
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="w-385 max-w-full h-50 rounded-10 pt-13 px-6 pb-13 opacity-100 bg-primary font-sans text-button transition-all duration-300 ease-out active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isLoading ? 'Sending...' : 'Submit'}
+          </button>
 
-        <p className="text-center text-sm text-gray-400">
-          Remember your password? <Link href="/signin" className="text-primary hover:text-primary-dark">Sign In</Link>
-        </p>
-      </form>
-    </AuthLayout>
+          <p className="font-sans text-link font-normal text-center text-gray-400">
+            Remember your password?{' '}
+            <Link 
+              href="/signin" 
+              className="font-sans text-link font-semibold text-primary hover:text-primary-dark"
+            >
+              Sign In
+            </Link>
+          </p>
+        </form>
+      </AuthLayout>
     </>
   )
 }

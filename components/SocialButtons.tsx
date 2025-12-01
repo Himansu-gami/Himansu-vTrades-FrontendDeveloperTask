@@ -91,20 +91,17 @@ export default function SocialButtons() {
 
   return (
     <>
-      <div className="relative my-6">
-        <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-dark-lighter"></div>
-        </div>
-        <div className="relative flex justify-center text-sm">
-          <span className="px-2 bg-background text-gray-400">or</span>
-        </div>
+      <div className="w-385 max-w-full h-28 flex items-center justify-between opacity-100 mb-6">
+        <div className="flex-1 h-px bg-white/10"></div>
+        <span className="mx-3 text-sm text-gray-400">or</span>
+        <div className="flex-1 h-px bg-white/10"></div>
       </div>
 
       <button
         type="button"
         onClick={handleGoogleSignIn}
         disabled={isLoading !== null}
-        className="w-full py-3 bg-dark hover:bg-dark-light rounded-lg font-medium transition-colors flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-385 max-w-full h-50 rounded-10 pt-13 px-6 pb-13 opacity-100 flex items-center justify-center gap-10 mb-6 bg-dark hover:bg-dark-light font-sans text-social-button transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {isLoading === 'google' ? (
           <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -135,7 +132,7 @@ export default function SocialButtons() {
         type="button"
         onClick={handleMicrosoftSignIn}
         disabled={isLoading !== null}
-        className="w-full py-3 bg-dark hover:bg-dark-light rounded-lg font-medium transition-colors flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-385 max-w-full h-50 rounded-10 pt-13 px-6 pb-13 opacity-100 flex items-center justify-center gap-10 mb-6 bg-dark hover:bg-dark-light font-sans text-social-button transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {isLoading === 'microsoft' ? (
           <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />

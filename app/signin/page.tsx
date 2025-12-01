@@ -75,54 +75,75 @@ export default function SignIn() {
 
   return (
     <AuthLayout>
-        <h2 className="text-3xl font-bold mb-2">Sign In</h2>
-      <p className="text-gray-400 mb-8">Manage your workspace seamlessly. Sign in to continue.</p>
+      <h2 className="font-sans font-semibold text-heading opacity-100 mb-2">
+        Sign In
+      </h2>
+      <p className="w-363 max-w-full h-24 font-sans text-body opacity-100 text-gray-400 mb-8">
+        Manage your workspace seamlessly. Sign in to continue.
+      </p>
 
-      <form className="space-y-6" autoComplete="off" onSubmit={handleSubmit} noValidate>
-        <Input 
-          id="email" 
-          label="Email Address" 
-          type="email" 
-          placeholder="Enter your email"
-          autoComplete="off"
-          value={formData.email}
-          onChange={(e) => handleInputChange('email', e.target.value)}
-          error={errors.email}
-        />
+      <form autoComplete="off" onSubmit={handleSubmit} noValidate>
+        <div className="mb-6">
+          <Input 
+            id="email" 
+            label="Email Address" 
+            type="email" 
+            placeholder="Enter your email"
+            autoComplete="off"
+            value={formData.email}
+            onChange={(e) => handleInputChange('email', e.target.value)}
+            error={errors.email}
+          />
+        </div>
 
-        <Input 
-          id="password" 
-          label="Password" 
-          type="password"
-          placeholder="Enter your password"
-          showPasswordToggle
-          autoComplete="new-password"
-          value={formData.password}
-          onChange={(e) => handleInputChange('password', e.target.value)}
-          error={errors.password}
-        />
+        <div className="mb-3">
+          <Input 
+            id="password" 
+            label="Password" 
+            type="password"
+            placeholder="Enter your password"
+            showPasswordToggle
+            autoComplete="new-password"
+            value={formData.password}
+            onChange={(e) => handleInputChange('password', e.target.value)}
+            error={errors.password}
+          />
+        </div>
 
-        <div className="flex items-center justify-between">
-          <label className="flex items-center">
+        <div className="w-385 max-w-full flex items-center justify-between opacity-100 mb-10">
+          <label className="flex items-center font-sans font-normal text-sm cursor-pointer">
             <input type="checkbox" className="mr-2" />
-            <span className="text-sm">Remember me</span>
+            <span>Remember me</span>
           </label>
-          <Link href="/forgot-password" className="text-sm text-primary hover:text-primary-dark">Forgot Password?</Link>
+          <Link 
+            href="/forgot-password" 
+            className="font-sans font-normal text-sm whitespace-nowrap text-primary hover:text-primary-dark"
+          >
+            Forgot Password?
+          </Link>
         </div>
 
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full py-3 bg-primary hover:bg-primary-dark rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-385 max-w-full h-50 rounded-10 pt-13 px-6 pb-13 opacity-100 mb-6 bg-primary font-sans text-button transition-all duration-300 ease-out active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isLoading ? 'Signing In...' : 'Sign In'}
         </button>
 
         <SocialButtons />
 
-        <p className="text-center text-sm text-gray-400">
-          Don&apos;t have an account? <Link href="/signup" className="text-primary hover:text-primary-dark">Sign Up</Link>
-        </p>
+        <div className="w-385 max-w-full flex justify-center">
+          <p className="font-sans text-link font-normal text-center text-gray-400">
+            Don&apos;t have an account?{' '}
+            <Link 
+              href="/signup" 
+              className="font-sans text-link font-semibold text-primary hover:text-primary-dark"
+            >
+              Sign Up
+            </Link>
+          </p>
+        </div>
       </form>
     </AuthLayout>
   )
